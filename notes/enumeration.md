@@ -18,19 +18,28 @@ Si no hay acceso, la enumeración **no ha terminado**.
 
 ### 2.1 Comprobación básica
 ```bash
-ping IP{
+ping IP
+
 TTL aproximado → Linux / Windows
 
-Latencia → VM local / red real}
+Latencia → VM local / red real
 
-#### 2.2 Descubrimiento de puertos
+---
+
+### 2.2 Descubrimiento de puertos
+```bash
 nmap -p- --min-rate 1000 IP
 
-#### 2.2 enumeración servicios
+---
+
+### 2.2 enumeración servicios
+```bash
 nmap -sC -sV -p PUERTOS IP -oN nmap.txt
 
+---
 
 ## 3. Enumeración por servicio
+
 3.1 SSH (22)
 
 Qué pienso:
