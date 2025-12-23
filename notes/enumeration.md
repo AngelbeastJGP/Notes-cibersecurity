@@ -4,6 +4,19 @@ Perfil: ASIR → Ciberseguridad
 
 ---
 
+## Tabla de contenidos
+
+- [Principio fundamental](#1-principio-fundamental)
+- [Reconocimiento inicial](#2-reconocimiento-inicial)
+- [Enumeración por servicio](#3-enumeración-por-servicio)
+- [Búsqueda de credenciales](#4-búsqueda-de-credenciales)
+- [Enumeración post-acceso](#5-enumeración-post-acceso)
+- [Errores comunes](#6-errores-que-evito)
+- [Documentación profesional](#7-documentación-profesional)
+- [Checklist mental](#8-checklist-mental-rápido)
+
+  ---
+  
 ## 1. Principio fundamental
 La enumeración es un proceso **metódico**, no una colección de comandos.
 El objetivo es **entender el sistema**, no solo encontrar vulnerabilidades.
@@ -19,64 +32,60 @@ Si no hay acceso, la enumeración **no ha terminado**.
 ### 2.1 Comprobación básica
 ```bash
 ping IP
-
+```
 TTL aproximado → Linux / Windows
 
 Latencia → VM local / red real
 
----
-
 ### 2.2 Descubrimiento de puertos
 ```bash
 nmap -p- --min-rate 1000 IP
-
----
+```
 
 ### 2.2 enumeración servicios
 ```bash
 nmap -sC -sV -p PUERTOS IP -oN nmap.txt
-
+```
 ---
 
 ## 3. Enumeración por servicio
 
-3.1 SSH (22)
+### 3.1 SSH (22)
 
-Qué pienso:
+**Qué pienso:**
 
-¿Permite login de root?
+- ¿Permite login de root?
 
-¿Usuarios válidos?
+- ¿Usuarios válidos?
 
-¿Autenticación por contraseña o clave?
+- ¿Autenticación por contraseña o clave?
 
-Pruebas:
-
+**Pruebas:**
+```bash
 ssh usuario@IP
+```
 
+**Errores comunes:**
 
-Errores comunes:
+- Contraseñas débiles
 
-Contraseñas débiles
+- Reutilización de credenciales
 
-Reutilización de credenciales
+- Claves privadas mal protegidas
 
-Claves privadas mal protegidas
+### 3.2 FTP (21)
 
-3.2 FTP (21)
+**Qué busco:**
 
-Qué busco:
+- Acceso anónimo
 
-Acceso anónimo
+- Archivos sensibles
 
-Archivos sensibles
-
-Backups o credenciales
-
+- Backups o credenciales
+```bash
 ftp IP
-
-
-Configuraciones inseguras típicas:
+```
+**Configuraciones inseguras típicas:**
 
 anonymous enabled
 
@@ -84,92 +93,96 @@ write permissions
 
 directorios expuestos
 
-3.3 HTTP / HTTPS (80 / 443)
+### 3.3 HTTP / HTTPS (80 / 443)
 
 Orden correcto:
 
-Navegador
+1. Navegador
 
-Código fuente
+2. Código fuente
 
-Rutas comunes
+3. Rutas comunes
 
-Tecnologías
+4. Tecnologías
 
-Enumeración automática
+5. Enumeración automática
 
-Herramientas:
-
+**Herramientas:**
+```bash
 whatweb http://IP
 gobuster dir -u http://IP -w wordlist.txt
+```
+**Busco:**
 
+- Formularios
 
-Busco:
+- Paneles de login
 
-Formularios
+- Versiones vulnerables
 
-Paneles de login
+- Archivos de configuración
 
-Versiones vulnerables
+- Comentarios en HTML/JS
 
-Archivos de configuración
+### 3.4 SMB (445)
 
-Comentarios en HTML/JS
+**Mentalidad sysadmin (clave):**
 
-3.4 SMB (445)
+- Shares
 
-Mentalidad sysadmin (clave):
+- Permisos
 
-Shares
+- Usuarios
 
-Permisos
-
-Usuarios
-
-Información interna
-
+- Información interna
+```bash
 smbclient -L //IP
+```
 
+**Configuraciones inseguras:**
 
-Configuraciones inseguras:
+- Shares públicos
 
-Shares públicos
+- Acceso sin autenticación
 
-Acceso sin autenticación
+- Permisos excesivos
 
-Permisos excesivos
+### 3.5 Otros servicios (según aparezcan)
 
-3.5 Otros servicios (según aparezcan)
+- MySQL (3306)
 
-MySQL (3306)
+- PostgreSQL (5432)
 
-PostgreSQL (5432)
+- LDAP (389)
 
-LDAP (389)
+- RDP (3389)
 
-RDP (3389)
-
-Regla:
+**Regla:**
 
 Si no conozco el servicio, lo investigo antes de atacarlo.
+
+--- 
+
 ## 4. Búsqueda de credenciales
 
-Las credenciales son el objetivo principal, más importantes que los exploits.
+Las **credenciales son el objetivo principal, más importantes que los exploits.**
 
-Fuentes habituales:
+**Fuentes habituales:**
 
-Archivos de configuración
+- Archivos de configuración
 
-Backups
+- Backups
 
-Shares SMB
+- Shares SMB
 
-Variables de entorno
+- Variables de entorno
 
-Reutilización de contraseñas
+- Reutilización de contraseñas
+
+---
 
 ## 5. Enumeración post-acceso
-5.1 Linux
+### 5.1 Linux
 
 Usuarios y grupos
 
@@ -183,7 +196,7 @@ Permisos de archivos
 
 Binarios SUID
 
-5.2 Windows
+### 5.2 Windows
 
 Usuarios y grupos
 
@@ -197,34 +210,40 @@ ACLs
 
 Movimiento lateral
 
+---
+
 ## 6. Errores que evito
 
-Ejecutar herramientas sin entenderlas
+- Ejecutar herramientas sin entenderlas
 
-No analizar los outputs
+- No analizar los outputs
 
-Enumerar solo una vez
+- Enumerar solo una vez
 
-Pensar solo como atacante
+- Pensar solo como atacante
 
-No documentar el proceso
+- No documentar el proceso
+
+---
 
 ## 7. Documentación profesional
 
 Siempre documento:
 
-Qué encontré
+- Qué encontré
 
-Por qué es relevante
+- Por qué es relevante
 
-Cómo se explota
+- Cómo se explota
 
-Cómo se detecta
+- Cómo se detecta
 
-Cómo se mitiga
+- Cómo se mitiga
 
-Un buen pentester explota.
-Un excelente profesional explica cómo corregir el problema.
+**Un buen pentester explota.**
+**Un excelente profesional explica cómo corregir el problema.**
+
+---
 
 ## 8. Checklist mental rápido
 
