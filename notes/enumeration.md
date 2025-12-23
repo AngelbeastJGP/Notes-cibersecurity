@@ -30,7 +30,7 @@ nmap -p- --min-rate 1000 IP
 nmap -sC -sV -p PUERTOS IP -oN nmap.txt
 
 
-3. Enumeración por servicio
+## 3. Enumeración por servicio
 3.1 SSH (22)
 
 Qué pienso:
@@ -143,7 +143,7 @@ RDP (3389)
 Regla:
 
 Si no conozco el servicio, lo investigo antes de atacarlo.
-4. Búsqueda de credenciales
+## 4. Búsqueda de credenciales
 
 Las credenciales son el objetivo principal, más importantes que los exploits.
 
@@ -159,7 +159,7 @@ Variables de entorno
 
 Reutilización de contraseñas
 
-5. Enumeración post-acceso
+## 5. Enumeración post-acceso
 5.1 Linux
 
 Usuarios y grupos
@@ -188,7 +188,7 @@ ACLs
 
 Movimiento lateral
 
-6. Errores que evito
+## 6. Errores que evito
 
 Ejecutar herramientas sin entenderlas
 
@@ -200,7 +200,7 @@ Pensar solo como atacante
 
 No documentar el proceso
 
-7. Documentación profesional
+## 7. Documentación profesional
 
 Siempre documento:
 
@@ -217,7 +217,7 @@ Cómo se mitiga
 Un buen pentester explota.
 Un excelente profesional explica cómo corregir el problema.
 
-8. Checklist mental rápido
+## 8. Checklist mental rápido
 
 ¿He enumerado todos los puertos?
 
